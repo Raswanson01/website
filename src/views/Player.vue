@@ -3,22 +3,30 @@
     <v-row>
       <v-col cols="12">
         <v-card tile>
-          <v-card-title>
-            <v-row no-gutters>
-              <v-col :align-self="'center'">
-                <span>{{ $t("views_player.profile") }} {{ profile.battleTag }}</span>
-                <span v-if="aliasName" class="ml-1">({{ aliasName }})</span>
-                <span class="mr-2" /> <!-- add some space between name and season badges -->
-                <div v-for="season in seasonsWithoutCurrentOne" :key="season.id" class="ml-1 d-inline-block" >
-                  <SeasonBadge :season="season" :on-click="selectSeason" />
-                </div>
-              </v-col>
-              <v-col :cols="12" :sm="'auto'">
-                <div class="ml-3">
-                  <gateway-select @gatewayChanged="gatewayChanged" />
-                  <v-menu offset-x v-if="!!seasons && seasons.length > 0">
-                  <template v-slot:activator="{ on }">
-                    <v-btn tile v-on="on" class="ma-2 transparent">
+          <v-card-title class="justify-space-between">
+            <div
+              style="display: flex; flex-direction: row; align-items: center"
+            >
+              <span>
+                {{ $t("views_player.profile") }} {{ profile.battleTag }}
+              </span>
+              <div v-if="aliasName">({{ aliasName }})</div>
+              <div
+                style="display: flex; flex-direction: row; margin-left: 25px"
+              >
+                <SeasonBadge
+                  v-for="season in seasonsWithoutCurrentOne"
+                  :season="season"
+                  :key="season.id"
+                  :on-click="selectSeason"
+                />
+              </div>
+            </div>
+            <div>
+              <gateway-select @gatewayChanged="gatewayChanged" v-if="isGatewayNeeded()"/>
+              <v-menu offset-x v-if="!!seasons && seasons.length > 0">
+                <template v-slot:activator="{ on }">
+                  <v-btn tile v-on="on" class="ma-2 transparent">
                     <span class="pa-0" v-if="selectedSeason">
                       {{ $t("views_rankings.season") }} {{ selectedSeason.id }}
                     </span>
