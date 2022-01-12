@@ -77,7 +77,7 @@ const mod = {
     },
     async search(
       context: ActionContext<RankingState, RootState>,
-      search: { searchText: string; gameMode: EGameMode; }
+      search: { searchText: string; gameMode: EGameMode }
     ) {
       const { commit, rootGetters, state, rootState } = moduleActionContext(
         context,
